@@ -13,7 +13,7 @@ public class Sikkerhet {
     BankRepository rep;
 
     @Autowired
-    private HttpSession session;
+    private HttpSession session; // Lets us save data in the session
 
     @GetMapping("/loggInn")
     public String sjekkLoggInn(String personnummer, String passord) {
