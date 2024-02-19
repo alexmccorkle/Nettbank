@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.GetMapping; 
 
 import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
