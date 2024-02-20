@@ -45,6 +45,7 @@ public class EnhetstestSikkerhet {
         assertEquals("OK", resultat);
     }
 
+    
     // Test to see log out method works correctly and sets the session attribute to null
     @Test 
     public void test_loggUt() {
@@ -57,6 +58,7 @@ public class EnhetstestSikkerhet {
       // assert
       assertNull(session.getAttribute("Innlogget")); // if the session attribute is null, the user is logged out
     }
+
 
     // Test for logging in as admin with correct/incorrect credentials
     @Test 
@@ -79,6 +81,7 @@ public class EnhetstestSikkerhet {
         // checks that user is logged in and attribute is correctly set to "Admin"
     }
 
+
     @Test
     public void test_loggInnAdminFeil() {
       // arrange
@@ -95,6 +98,8 @@ public class EnhetstestSikkerhet {
         // checks that user is not logged in and attribute is correctly set to null
     }
 
+
+    // Test to see if the loggetInn method returns the correct username
     @Test
     public void test_loggetInn() {
       // arramge
@@ -103,11 +108,9 @@ public class EnhetstestSikkerhet {
       sikkerhetsController.setSession(mockSesh); // sets the mock session
       mockSesh.setAttribute("Innlogget", mockBruker); // in the mock session, we simulate logging in
 
-
       // act
       String result = sikkerhetsController.loggetInn(); // if user is logged in, should return the username
 
-      
       // assert
       assertEquals(mockBruker, result); // checks that the username is returned
     }
