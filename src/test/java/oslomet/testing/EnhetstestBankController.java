@@ -6,11 +6,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 // import org.springframework.web.bind.annotation.GetMapping; 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import oslomet.testing.API.BankController;
 import oslomet.testing.DAL.BankRepository;
 import oslomet.testing.Models.Konto;
 import oslomet.testing.Models.Kunde;
+import oslomet.testing.Models.Transaksjon;
 import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -62,8 +66,10 @@ public class EnhetstestBankController {
         assertNull(resultat);
     }
 
+
+    // Tests that the method returns the konti (accounts) if the user is logged in/logged out
     @Test
-    public void hentKonti_LoggetInn()  { // Tests that the method returns the correct accounts if the user is logged in
+    public void hentKonti_LoggetInn()  { 
         // arrange
         List<Konto> konti = new ArrayList<>(); // Creates a list of accounts to test, these
         Konto konto1 = new Konto("105010123456", "01010110523",
@@ -85,7 +91,7 @@ public class EnhetstestBankController {
     }
 
     @Test
-    public void hentKonti_IkkeLoggetInn()  { // Tests that the method returns null for the 'konto' details if the user is not logged in
+    public void hentKonti_IkkeLoggetInn()  { 
         // arrange
 
         when(sjekk.loggetInn()).thenReturn(null);
@@ -97,8 +103,9 @@ public class EnhetstestBankController {
         assertNull(resultat);
     }
 
+    // Tests the method that returns transactions if the user is logged in/logged out
     @Test 
-    public void hentTransaksjoner_LoggetInn() {
+    public void hentTransaksjoner_LoggetInn() { 
         // arrange : here we are setting up the test
         String kontoNr = "12345678901", fraDato = "2023-01-01", tilDato = "2023-12-31";
         // The mock account number and dates to test since these are the parameters for the method
@@ -130,8 +137,9 @@ public class EnhetstestBankController {
         // as the method should not return any account details if the user is not logged in
     }
 
+    // Tests the method that returns saldi (balances) if the user is logged in/logged out
     @Test 
-    public void hentSaldi_LoggetInn() {
+    public void hentSaldi_LoggetInn() { 
         // arrange
         List<Konto> mockKonti = new ArrayList<>(); // Creates a list of konti to test
         when(sjekk.loggetInn()).thenReturn("12345678901");
@@ -141,7 +149,7 @@ public class EnhetstestBankController {
         List<Konto> result = bankController.hentSaldi();
 
         // assert
-        assertEquals(mockKonti, result); // Checks if the expected result is equal to the actual result
+        assertEquals(mockKonti, result);
     }
 
     @Test
@@ -156,9 +164,79 @@ public class EnhetstestBankController {
         assertNull(result); // The result should be null if the user is not logged in
     }
 
-// Tests to add: 
-    // registrerBetaling_LoggetInn and registrerBetaling_IkkeLoggetInn
-    // hentBetalinger_LoggetInn and hentBetalinger_IkkeLoggetInn
+    // Tests the method that registers a payment if the user is logged in/logged out
+    // ALso tests if if betaling(transaksjon) is registered successfully or not
+    @Test
+    public void registrerBetalingOK_LoggetInn() {
+        // arrange
+        Transaksjon mockTransaksjon = new Transaksjon(); // Mock transaction
+        when(sjekk.loggetInn()).thenReturn("12345678901"); // Logged in
+        when(repository.registrerBetaling(any(Transaksjon.class))).thenReturn("OK"); // Simulates the transaction being registered
+
+        // act
+        String result = bankController.registrerBetaling(mockTransaksjon); // Simulating a registration
+        
+        // assert
+        assertEquals("OK", result); // The result should be "OK" if the transaction is registered
+    }
+
+    @Test
+    public void registrerBetalingFeil_LoggetInn() {
+        // arrange
+        Transaksjon mockTransaksjon = new Transaksjon(); // Mock transaction
+        when(sjekk.loggetInn()).thenReturn("12345678901"); // Logged in
+        when(repository.registrerBetaling(any(Transaksjon.class))).thenReturn("Feil"); 
+        // ^^ Simulates the transaction not being registered or something going wrong
+
+        // act
+        String result = bankController.registrerBetaling(mockTransaksjon);
+
+        // assert
+        assertEquals("Feil", result); // The result of a failed transaction when logged in should be "Feil"
+    }
+
+    @Test
+    public void registrerBetaling_ikkeLoggetInn() {
+        // arrange
+        Transaksjon mock = new Transaksjon(); // Mock transaction
+        when(sjekk.loggetInn()).thenReturn(null); // Not logged in
+
+        // act
+        String result = bankController.registrerBetaling(mock);
+
+        // assert
+        assertNull(result); // The result should be null if the user is not logged in
+    }
+
+    // Tests the method that returns list of betalinger(transactions) if the user is logged in/logged out
+    @Test
+    public void hentBetalinger_loggetInn() {
+        // arrange
+        List<Transaksjon> mock = new ArrayList<>(); // Mock list of transactions
+        when(sjekk.loggetInn()).thenReturn("12345678901"); 
+        when(repository.hentBetalinger(anyString())).thenReturn(mock);
+
+        // act
+        List<Transaksjon> result = bankController.hentBetalinger(); // Should return a list of transactions
+
+        // assert
+        assertEquals(mock, result);
+    }
+
+    @Test
+    public void hentBetalinger_ikkeLoggetInn() {
+        // arrange
+        when(sjekk.loggetInn()).thenReturn(null);
+
+        // act
+        List<Transaksjon> result = bankController.hentBetalinger();
+
+        // assert
+        assertNull(result);
+    }
+
+
+    // Tests to add: 
     // utforBetaling_LoggetInn and utforBetaling_IkkeLoggetInn
     // hentKundeInfo_LoggetInn and hentKundeInfo_IkkeLoggetInn
 }
