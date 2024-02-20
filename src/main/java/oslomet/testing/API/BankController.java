@@ -54,9 +54,9 @@ public class BankController {
     public String registrerBetaling(@RequestBody Transaksjon betaling) {
         String personnummer = sjekk.loggetInn();
         if (personnummer != null) {
-            return repository.registrerBetaling(betaling);
+            return repository.registrerBetaling(betaling); // If logged in, returns either "OK" or "Feil"
         }
-        return null;
+        return null; // Not logged in
     }
 
     @GetMapping("/hentBetalinger")
