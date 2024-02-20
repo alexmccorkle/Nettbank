@@ -15,6 +15,12 @@ public class Sikkerhet {
     @Autowired
     private HttpSession session; // Lets us save data in the session
 
+
+    // Had to implement this to be able to test the loggInn methods correctly
+    public void setSession(HttpSession session) {
+        this.session = session;
+    }
+
     @GetMapping("/loggInn")
     public String sjekkLoggInn(String personnummer, String passord) {
         String regexPersonnummer = "[0-9]{11}";
