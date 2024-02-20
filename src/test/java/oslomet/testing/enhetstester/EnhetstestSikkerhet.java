@@ -1,4 +1,4 @@
-package oslomet.testing;
+package oslomet.testing.enhetstester;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SikkerhetsTestController {
+public class EnhetstestSikkerhet {
 
     @InjectMocks
     // denne skal testes
@@ -55,7 +55,5 @@ public class SikkerhetsTestController {
     public void test_sjekkAdminLoggetInn() {
     }
 
-
-    // Not sure if I should be testing this file or not since it's not a controller
-    // Will come back to it later
+      // YES DO THE TESTS FOR THIS CLASS TOO
 }

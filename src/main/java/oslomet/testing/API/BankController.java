@@ -31,6 +31,7 @@ public class BankController {
         return null;
     }
 
+    // Already tested
     @GetMapping("/hentKonti")
     public List<Konto> hentKonti() {
         String personnummer = sjekk.loggetInn();
@@ -78,6 +79,7 @@ public class BankController {
         return null;
     }
 
+    // Already tested
     @GetMapping("/hentKundeInfo")
     public Kunde hentKundeInfo() {
         String personnummer = sjekk.loggetInn();
