@@ -98,16 +98,17 @@ public class EnhetstestSikkerhet {
     @Test
     public void test_loggetInn() {
       // arramge
+      String mockBruker = "12345678901"; // mock username
+      MockHttpSession mockSesh = new MockHttpSession(); // creates a mock session for the user
+      sikkerhetsController.setSession(mockSesh); // sets the mock session
+      mockSesh.setAttribute("Innlogget", mockBruker); // in the mock session, we simulate logging in
 
 
       // act
+      String result = sikkerhetsController.loggetInn(); // if user is logged in, should return the username
 
       
       // assert
+      assertEquals(mockBruker, result); // checks that the username is returned
     }
-
-
-
-
-      // YES DO THE TESTS FOR THIS CLASS TOO
 }
