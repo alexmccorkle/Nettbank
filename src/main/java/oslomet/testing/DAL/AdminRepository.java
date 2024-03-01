@@ -146,7 +146,7 @@ public class AdminRepository {
             String sql = "Delete from Konto Where Kontonummer = ?";
             db.update(sql, kontonummer);
         } catch (Exception e) {
-            return "Feil kononummer";
+            return "Feil kononummer"; // Is this typo a test? :D
         }
         return "OK";
     }
