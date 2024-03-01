@@ -77,6 +77,7 @@ public class BankRepository {
             List<Konto> konti = db.query(sql, new BeanPropertyRowMapper(Konto.class), personnummer);
             return konti;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -170,19 +171,16 @@ public class BankRepository {
     }
 
     // Method to initialize the database before running tests on SoapUI
-    public String initDB(DataSource datasource) {
+    public String initDB(DataSource dataSource) {
         try {
-            if (datasource != null) { // Ensuring that datasource exists
                 Resource skjema = new ClassPathResource("schema.sql");
                 Resource data = new ClassPathResource("data.sql");
                 ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema, data);
-                databasePopulator.execute(datasource); // Populating the database with the schema and data
+                databasePopulator.execute(dataSource); // Populating the database with the schema and data
                 return "OK";
-            } else {
-                return "Feil";
-            }
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
             return "Feil";
         }
     }

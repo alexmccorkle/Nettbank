@@ -3,16 +3,16 @@
 --
 
 INSERT INTO `Konto` (`Kontonummer`, `Personnummer`, `Saldo`, `Type`, `Valuta`) VALUES
-('105010123456', '01010110523', 720, 'Lønnskonto', 'NOK'),
-('105020123456', '01010110523', 100500, 'Sparekonto', 'NOK'),
-('22334412345', '01010110523', 10234.5, 'Brukskonto', 'NOK');
+('105010123456', '12345678910', 720, 'Lønnskonto', 'NOK'),
+('105020123456', '12345678910', 100500, 'Sparekonto', 'NOK'),
+('22334412345', '12345678910', 10234.5, 'Brukskonto', 'NOK');
 
 --
 -- Dataark for tabell `Kunde`
 --
 
 INSERT INTO `Kunde` (`Personnummer`, `Fornavn`, `Etternavn`, `Adresse`, `Postnr`, `Telefonnr`, `Passord`) VALUES
-('01010110523', 'Lene', 'Jensen', 'Askerveien 22', '3270', '22224444', 'HeiHei'),
+('12345678910', 'Lene', 'Jensen', 'Askerveien 22', '3270', '22224444', 'HeiHei'),
 ('12345678901', 'Per', 'Hansen', 'Osloveien 82', '1234', '12345678', 'HeiHei');
 
 --
