@@ -13,6 +13,8 @@ import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 @RestController
 public class BankController {
 
@@ -98,5 +100,13 @@ public class BankController {
             return repository.endreKundeInfo(innKunde);
         }
         return null;
+    }
+
+    @Autowired
+    private DataSource dataSource;
+
+    @GetMapping("/initDB") // This is just for initializing the database
+    public String initDB() {
+        return repository.initDB(dataSource);
     }
 }

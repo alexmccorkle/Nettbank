@@ -10,6 +10,13 @@ import oslomet.testing.Models.Transaksjon;
 
 import java.util.List;
 
+// InitDB imports that were used in Kunde example in case I need them
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import javax.sql.DataSource;
+
+
 @Repository
 public class BankRepository {
 
@@ -161,4 +168,37 @@ public class BankRepository {
         }
         return "OK";
     }
+
+    // Method to initialize the database before running tests on SoapUI
+    public String initDB(DataSource datasource) {
+        try {
+            if (datasource != null) { // Ensuring that datasource exists
+                Resource skjema = new ClassPathResource("schema.sql");
+                Resource data = new ClassPathResource("data.sql");
+                ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema, data);
+                databasePopulator.execute(datasource); // Populating the database with the schema and data
+                return "OK";
+            } else {
+                return "Feil";
+            }
+        }
+        catch (Exception e) {
+            return "Feil";
+        }
+    }
+    /*
+     * The initDB from the Kunde example
+     *      public String initDB(DataSource dataSource){
+            try{
+                Resource skjema = new  ClassPathResource("schema.sql");
+                Resource data = new  ClassPathResource("data.sql");
+                ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema,data);
+                databasePopulator.execute(dataSource);
+                return "OK";
+            }
+            catch(Exception e){
+                return "Feil";
+            }
+        }
+     */
 }

@@ -8,6 +8,7 @@ import oslomet.testing.Sikkerhet.Sikkerhet;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/adminKonto")
 public class AdminKontoController {

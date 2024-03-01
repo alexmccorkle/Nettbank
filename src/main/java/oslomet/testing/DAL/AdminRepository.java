@@ -1,12 +1,17 @@
 package oslomet.testing.DAL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Repository;
 import oslomet.testing.Models.Konto;
 import oslomet.testing.Models.Kunde;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 @Repository
 public class AdminRepository {
@@ -149,5 +154,23 @@ public class AdminRepository {
             return "Feil kononummer"; // Is this typo a test? :D
         }
         return "OK";
+    }
+
+    // Method to initialize the database before running tests on SoapUI
+    public String initDB(DataSource datasource) {
+        try {
+            if (datasource != null) { // Ensuring that datasource exists
+                Resource skjema = new ClassPathResource("schema.sql");
+                Resource data = new ClassPathResource("data.sql");
+                ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema, data);
+                databasePopulator.execute(datasource); // Populating the database with the schema and data
+                return "OK";
+            } else {
+                return "Feil";
+            }
+        }
+        catch (Exception e) {
+            return "Feil";
+        }
     }
 }
