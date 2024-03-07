@@ -16,7 +16,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import javax.sql.DataSource;
 
-
 @Repository
 public class BankRepository {
 
@@ -173,30 +172,30 @@ public class BankRepository {
     // Method to initialize the database before running tests on SoapUI
     public String initDB(DataSource dataSource) {
         try {
-                Resource skjema = new ClassPathResource("schema.sql");
-                Resource data = new ClassPathResource("data.sql");
-                ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema, data);
-                databasePopulator.execute(dataSource); // Populating the database with the schema and data
-                return "OK";
-        }
-        catch (Exception e) {
+            Resource skjema = new ClassPathResource("schema.sql");
+            Resource data = new ClassPathResource("data.sql");
+            ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema, data);
+            databasePopulator.execute(dataSource); // Populating the database with the schema and data
+            return "OK";
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return "Feil";
         }
     }
     /*
      * The initDB from the Kunde example
-     *      public String initDB(DataSource dataSource){
-            try{
-                Resource skjema = new  ClassPathResource("schema.sql");
-                Resource data = new  ClassPathResource("data.sql");
-                ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(skjema,data);
-                databasePopulator.execute(dataSource);
-                return "OK";
-            }
-            catch(Exception e){
-                return "Feil";
-            }
-        }
+     * public String initDB(DataSource dataSource){
+     * try{
+     * Resource skjema = new ClassPathResource("schema.sql");
+     * Resource data = new ClassPathResource("data.sql");
+     * ResourceDatabasePopulator databasePopulator = new
+     * ResourceDatabasePopulator(skjema,data);
+     * databasePopulator.execute(dataSource);
+     * return "OK";
+     * }
+     * catch(Exception e){
+     * return "Feil";
+     * }
+     * }
      */
 }
